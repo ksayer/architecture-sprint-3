@@ -1,0 +1,38 @@
+@startuml
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
+
+title Warm House Code Diagram: Device Management Service
+
+class CommandProcessor {
+  +void executeCommand(String command)
+}
+
+class StateManager {
+  +void updateState(String deviceId, String newState)
+  +String getState(String deviceId)
+}
+
+class EventHandler {
+  +void processEvent(String event)
+  +void publishEvent(String event)
+}
+
+class RepositoryLayer {
+  +void saveEvent(String event)
+  +Device getDeviceById(String deviceId)
+  +void saveDevice(String deviceId)
+}
+
+class Device {
+  +String id
+  +String type
+  +String state
+  +void updateState(String newState)
+}
+
+CommandProcessor -- StateManager : updates
+CommandProcessor -- EventHandler : notifies
+EventHandler -- RepositoryLayer : persists
+RepositoryLayer -- Device : manages
+
+@enduml
