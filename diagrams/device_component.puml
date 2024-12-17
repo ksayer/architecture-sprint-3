@@ -1,0 +1,20 @@
+@startuml
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
+
+title Warm House Component Diagram: Device Management Service
+
+Container(DMS, "Device Management Service", "Java", "Manages devices") {
+    Component(CommandProcessor, "Command Processor", "Executes device commands")
+    Component(StateManager, "State Manager", "Maintains device state")
+    Component(EventHandler, "Event Handler", "Processes device events")
+    Component(RepositoryLayer, "Repository Layer", "Handles database interactions")
+}
+
+ComponentDb(DeviceDB, "Device Database", "MongoDB", "Stores device data")
+
+Rel(CommandProcessor, StateManager, "Updates device state")
+Rel(CommandProcessor, EventHandler, "Fetch/Send events")
+Rel(EventHandler, RepositoryLayer, "Handles event storage")
+Rel(RepositoryLayer, DeviceDB, "Reads/Writes data")
+
+@enduml

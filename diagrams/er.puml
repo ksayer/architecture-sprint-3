@@ -1,0 +1,50 @@
+@startuml
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
+
+title Warm House ER Diagram
+
+entity User {
+  * id : UUID
+  * email : String
+  * password : String
+  * role : String
+}
+
+entity House {
+  * id : UUID
+  * address : String
+}
+
+entity UserHouse {
+  * user_id : UUID
+  * house_id : UUID
+}
+
+entity DeviceType {
+  * id : UUID
+  * name : String
+}
+
+entity Device {
+  * id : UUID
+  * serial_number : String
+  * device_type_id : UUID
+  * house_id : UUID
+  * status : String
+}
+
+entity Telemetry {
+  * id : UUID
+  * device_id : UUID
+  * timestamp : DateTime
+  * data : String
+}
+
+User ||--o{ UserHouse : owns
+House ||--o{ UserHouse : has
+
+House ||--o{ Device : contains
+Device }|--|| DeviceType : "has type"
+Device ||--o{ Telemetry : generates
+
+@enduml

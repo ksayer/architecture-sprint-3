@@ -1,0 +1,17 @@
+@startuml
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
+
+title Warm House Component Diagram: Automation Service
+
+Container(Automation, "Automation Service", "Java", "Manages automation scenarios") {
+    Component(ScenarioManager, "Scenario Manager", "Manages automation scenarios")
+    Component(EventHandler, "Event Handler", "Processes device events")
+    Component(RepositoryLayer, "Repository Layer", "Handles database interactions")
+}
+
+ComponentDb(AutomationDB, "Automation Database", "MongoDB", "Stores scenarios and logs")
+Rel(ScenarioManager, EventHandler, "Fetch/Send events")
+Rel(ScenarioManager, RepositoryLayer, "Interacts with database for scenarios")
+Rel(RepositoryLayer, AutomationDB, "Reads/Writes scenarios and logs")
+
+@enduml

@@ -1,0 +1,19 @@
+@startuml
+title Warm House Context Diagram
+
+top to bottom direction
+
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
+
+Person(user, "User", "Owner of a house")
+Person(admin, "Administrator", "An administrator managing new connections")
+System(FitLifeSystem, "Warm House System", "System managing devices")
+
+System_Ext(api, "House Devices", "Devices installed in houses")
+
+Rel(user, FitLifeSystem, "Uses the system")
+
+Rel(admin,FitLifeSystem,"Manages the system")
+Rel(FitLifeSystem,api, "Send commands, request metrics")
+
+@enduml

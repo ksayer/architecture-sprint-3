@@ -1,0 +1,18 @@
+@startuml
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
+
+title Warm House Component Diagram: Telemetry Service
+
+Container(Telemetry, "Telemetry Service", "Java", "Processes metrics") {
+    Component(DataProcessor, "Data Processor", "Processes incoming metrics")
+    Component(EventPublisher, "Event Publisher", "Publishes processed data to Kafka")
+    Component(RepositoryLayer, "Repository Layer", "Handles database interactions")
+}
+
+ComponentDb(TelemetryDB, "Telemetry Database", "MongoDB", "Stores metrics")
+
+Rel(DataProcessor, EventPublisher, "Publishes processed data")
+Rel(DataProcessor, RepositoryLayer, "Sends data for storage")
+Rel(RepositoryLayer, TelemetryDB, "Reads/Writes metrics data")
+
+@enduml

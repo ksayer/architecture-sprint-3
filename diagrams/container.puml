@@ -1,0 +1,37 @@
+@startuml
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
+
+title Warm House Container Diagram
+
+Person(user, "User", "Owner of a house")
+System_Boundary(WarmHouseSystem, "Warm House System") {
+    Container(API_Gateway, "API Gateway", "Manages routing requests")
+    Container(DMS, "Device Management Service", "Java", "Manages devices")
+    Container(Telemetry, "Telemetry Service", "Java", "Processes metrics")
+    Container(UserManagement, "User Management Service", "Java", "Handles users and authentication")
+    Container(Automation, "Automation Service", "Java", "Manages automation scenarios")
+    Container(Kafka, "Message Broker", "Kafka", "Enables asynchronous messaging")
+    ContainerDb(DeviceDB, "Device Database", "MongoDB", "Stores device data")
+    ContainerDb(UserDB, "User Database", "MongoDB", "Stores user information")
+    ContainerDb(TelemetryDB, "Telemetry Database", "MongoDB", "Stores metrics")
+}
+
+System_Ext(Device, "House Devices", "Devices installed in houses")
+
+Rel(user, API_Gateway, "Uses the system")
+Rel(API_Gateway, DMS, "Routes device management requests")
+Rel(API_Gateway, UserManagement, "Routes user authentication requests")
+Rel(API_Gateway, Telemetry, "Fetches/sends metrics")
+Rel(API_Gateway, Automation, "Routes automation-related requests")
+Rel(Device, API_Gateway, "Send metrics")
+
+
+Rel(DMS, Kafka, "Sends/Receives device events")
+Rel(Telemetry, Kafka, "Processes metrics asynchronously")
+Rel(Automation, Kafka, "Sends commands related to scenario")
+Rel(DMS, DeviceDB, "Reads/Writes device data")
+Rel(UserManagement, UserDB, "Reads/Writes user data")
+Rel(Telemetry, TelemetryDB, "Stores telemetry metrics ")
+Rel(DMS, Device, "Manages devices")
+
+@enduml

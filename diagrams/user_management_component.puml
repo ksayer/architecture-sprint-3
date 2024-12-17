@@ -1,0 +1,18 @@
+@startuml
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
+
+title Warm House Component Diagram: User Management Service
+
+Container(UserManagement, "User Management Service", "Java, Spring", "Handles users and authentication") {
+    Component(AuthManager, "Authentication Manager", "Handles login/logout")
+    Component(ProfileManager, "Profile Manager", "Manages user profiles")
+    Component(RepositoryLayer, "Repository Layer", "Handles database interactions")
+}
+
+ComponentDb(UserDB, "User Database", "MongoDB", "Stores user information")
+
+Rel(AuthManager, RepositoryLayer, "Interacts with database for credentials")
+Rel(ProfileManager, RepositoryLayer, "Interacts with database for profiles")
+Rel(RepositoryLayer, UserDB, "Reads/Writes user information")
+
+@enduml
