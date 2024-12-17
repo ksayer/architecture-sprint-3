@@ -13,13 +13,22 @@ entity User {
 entity House {
   * id : UUID
   * address : String
+}
+
+entity UserHouse {
   * user_id : UUID
+  * house_id : UUID
+}
+
+entity DeviceType {
+  * id : UUID
+  * name : String
 }
 
 entity Device {
   * id : UUID
   * serial_number : String
-  * type : String
+  * device_type_id : UUID
   * house_id : UUID
   * status : String
 }
@@ -31,8 +40,11 @@ entity Telemetry {
   * data : String
 }
 
-User ||--o{ House : owns
+User ||--o{ UserHouse : owns
+House ||--o{ UserHouse : has
+
 House ||--o{ Device : contains
+Device }|--|| DeviceType : "has type"
 Device ||--o{ Telemetry : generates
 
 @enduml
